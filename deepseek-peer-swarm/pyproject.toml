@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepseek-peer-swarm"
+version = "0.1.0"
+description = "Ten equal DeepSeek peers with durable tasks, A2A and a live local dashboard"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1", "httpx>=0.28,<1", "pydantic>=2.10,<3"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2"]
+
+[project.scripts]
+swarm = "swarm.__main__:main"
+
+[tool.setuptools.package-data]
+swarm = ["static/*", "prompts/*.md"]
+
+[tool.setuptools.packages.find]
+include = ["swarm*"]
+
+[tool.pytest.ini_options]
+markers = [
+  "offpeak: run with DeepSeek off-peak rates in force",
+  "real_clock: do not pin the peak/off-peak clock",
+]
+asyncio_mode = "auto"
+testpaths = ["tests"]
